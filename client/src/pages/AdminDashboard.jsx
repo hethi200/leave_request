@@ -23,7 +23,7 @@ function AdminDashboard() {
   return (
     <div style={{ padding: "30px" }}>
       <h1>Admin Dashboard</h1>
-      <h2>sathya</h2>
+      
       {requests.length === 0 ? (
         <p>No Leave Requests</p>
       ) : (
