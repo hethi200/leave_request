@@ -19,11 +19,13 @@ function Login() {
       );
 
       if (res.data.success) {
+        localStorage.setItem("username", username);
+
         if (res.data.role === "admin") {
-          navigate("/admin");
-        } else {
-          alert("User login");
-        }
+  navigate("/admin");
+} else {
+  navigate("/student"); // 👈 YOUR PAGE
+}
       } else {
         alert("Invalid Credentials");
       }

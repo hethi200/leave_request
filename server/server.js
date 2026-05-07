@@ -49,6 +49,13 @@ app.get("/leave-requests", (req, res) => {
   res.json(leaveRequests);
 });
 
+// ADD LEAVE REQUEST
+app.post("/leave-requests", (req, res) => {
+  const newRequest = req.body;
+  leaveRequests.push(newRequest);
+  res.json({ message: "Leave request added" });
+});
+
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
