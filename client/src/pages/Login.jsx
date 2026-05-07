@@ -22,10 +22,10 @@ function Login() {
         localStorage.setItem("username", username);
 
         if (res.data.role === "admin") {
-  navigate("/admin");
-} else {
-  navigate("/student"); // 👈 YOUR PAGE
-}
+          navigate("/admin");
+        } else {
+          navigate("/student");
+        }
       } else {
         alert("Invalid Credentials");
       }

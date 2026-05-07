@@ -1,28 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const FILE_PATH = "leaveRequests.json";
-
-// READ DATA
-function readRequests() {
-  if (!fs.existsSync(FILE_PATH)) {
-    fs.writeFileSync(FILE_PATH, JSON.stringify([]));
-  }
-
-  const data = fs.readFileSync(FILE_PATH);
-  return JSON.parse(data);
-}
-
-// WRITE DATA
-function writeRequests(data) {
-  fs.writeFileSync(FILE_PATH, JSON.stringify(data, null, 2));
-}
+let leaveRequests = [];
 
 // LOGIN API
 app.post("/login", (req, res) => {
@@ -49,20 +33,33 @@ app.post("/login", (req, res) => {
 
 // GET LEAVE REQUESTS
 app.get("/leave-requests", (req, res) => {
-  const requests = readRequests();
-  res.json(requests);
+  res.json(leaveRequests);
 });
 
 // ADD LEAVE REQUEST
 app.post("/leave-requests", (req, res) => {
-  const requests = readRequests();
+  const newRequest = {
+    ...req.body,
+    status: "Pending",
+  };
 
-  requests.push(req.body);
-
-  writeRequests(requests);
+  leaveRequests.push(newRequest);
 
   res.json({
-    message: "Leave request added",
+    message: "Leave Request Submitted",
+  });
+});
+
+// UPDATE LEAVE STATUS
+app.put("/leave-requests/:index", (req, res) => {
+  const index = req.params.index;
+
+  const { status } = req.body;
+
+  leaveRequests[index].status = status;
+
+  res.json({
+    message: `Leave ${status}`,
   });
 });
 
